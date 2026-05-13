@@ -16,7 +16,6 @@ Uma aplicação de **To-Do List** desenvolvida em **JavaFX** com **Maven**, segu
 - [🎓 Padrões de Design](#padrões-de-design)
 - [🔄 Fluxo de Dados](#fluxo-de-dados)
 - [✨ Funcionalidades](#funcionalidades)
-- [🛠️ Como Estender](#como-estender)
 - [❓ Troubleshooting](#troubleshooting)
 - [📖 Documentação Adicional](#documentação-adicional)
 
@@ -455,154 +454,6 @@ Usuário clica em CheckBox
 | Remover tarefa | ✅ | Botão individual por tarefa |
 | Estilos CSS | ✅ | Interface moderna e responsiva |
 | ScrollPane | ✅ | Suporte para muitas tarefas |
-| Persistência | ❌ | Salvar em arquivo/banco de dados |
-| Editar tarefa | ❌ | Modificar descrição existente |
-
-### Futuras Melhorias 🚀
-
-```javascript
-// Próximas features
-- [ ] Persistência em banco de dados (SQLite)
-- [ ] Categorias de tarefas
-- [ ] Prioridade (Alta, Média, Baixa)
-- [ ] Data de vencimento
-- [ ] Busca e filtro
-- [ ] Undo/Redo
-- [ ] Testes unitários
-- [ ] Atalhos de teclado customizáveis
-```
-
----
-
-## 🛠️ Como Estender
-
-### Adicionar Nova Funcionalidade: Editar Tarefa
-
-#### Passo 1: Adicionar método ao TaskController
-
-```java
-// TaskController.java
-public void updateTask(Task task, String newDescription) {
-    task.setDescription(newDescription);
-}
-```
-
-#### Passo 2: Atualizar TaskItem para incluir botão de edição
-
-```java
-// TaskItem.java
-private Button createEditButton() {
-    Button editButton = new Button("✎");
-    editButton.setOnAction(e -> {
-        // Lógica de edição
-        handleEditTask();
-    });
-    return editButton;
-}
-```
-
-#### Passo 3: Atualizar HBox do TaskItem
-
-```java
-public HBox createTaskItem() {
-    // ... código anterior ...
-    HBox taskItem = new HBox(10);
-    taskItem.getChildren().addAll(
-        checkBox, 
-        label, 
-        spacer, 
-        editButton,  // Novo
-        removeButton
-    );
-    return taskItem;
-}
-```
-
-### Adicionar Persistência em Arquivo
-
-#### Criar classe FileManager
-
-```java
-// com.notion.utils.FileManager.java
-package com.notion.utils;
-
-import java.io.*;
-import java.util.List;
-import com.notion.model.Task;
-
-public class FileManager {
-    private static final String FILE_PATH = "tasks.txt";
-
-    public static void saveTasks(List<Task> tasks) {
-        try (PrintWriter writer = new PrintWriter(
-            new FileWriter(FILE_PATH))) {
-            for (Task task : tasks) {
-                writer.println(task.getId() + "|" + 
-                              task.getDescription() + "|" +
-                              task.isCompleted());
-            }
-        } catch (IOException e) {
-            System.err.println("Erro ao salvar tarefas");
-        }
-    }
-
-    public static List<Task> loadTasks() {
-        // Implementar carregamento
-        return new ArrayList<>();
-    }
-}
-```
-
-#### Integrar no TaskController
-
-```java
-// TaskController.java
-public TaskController() {
-    // Carregar tarefas ao iniciar
-    this.tasks = FileManager.loadTasks();
-}
-
-public void addTask(String description) {
-    Task task = new Task(tasks.size() + 1, description, false);
-    tasks.add(task);
-    FileManager.saveTasks(tasks);  // Salvar após adicionar
-}
-```
-
-### Adicionar Testes Unitários
-
-#### Criar classe de teste
-
-```java
-// TaskControllerTest.java
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-public class TaskControllerTest {
-    
-    @Test
-    public void testAddTask() {
-        TaskController controller = new TaskController();
-        controller.addTask("Teste");
-        
-        assertEquals(1, controller.getTasks().size());
-        assertEquals("Teste", 
-            controller.getTasks().get(0).getDescription());
-    }
-
-    @Test
-    public void testRemoveTask() {
-        TaskController controller = new TaskController();
-        Task task = new Task(1, "Teste", false);
-        controller.addTask("Teste");
-        
-        controller.removeTask(
-            controller.getTasks().get(0));
-        
-        assertEquals(0, controller.getTasks().size());
-    }
-}
-```
 
 ---
 
@@ -706,16 +557,6 @@ mvn javadoc:javadoc
 
 ---
 
-## 👥 Contribuições
-
-Contribuições são bem-vindas! Para contribuir:
-
-1. **Fork** o repositório
-2. **Crie** uma branch (`git checkout -b feature/nova-feature`)
-3. **Commit** suas mudanças (`git commit -m 'Adiciona nova feature'`)
-4. **Push** para a branch (`git push origin feature/nova-feature`)
-5. **Abra** um Pull Request
-
 ### Padrões de Código
 
 - ✅ Use **camelCase** para variáveis e métodos
@@ -726,30 +567,6 @@ Contribuições são bem-vindas! Para contribuir:
 
 ---
 
-## 📄 Licença
-
-Este projeto está licenciado sob a **MIT License** - veja o arquivo `LICENSE` para detalhes.
-
----
-
-## 📞 Suporte
-
-Dúvidas ou problemas?
-
-- 📧 **Email**: seu-email@example.com
-- 💬 **Issues**: GitHub Issues
-- 📖 **Wiki**: GitHub Wiki
-
----
-
-## 🙏 Agradecimentos
-
-- Agradecimentos especiais aos contribuidores
-- Comunidade JavaFX por suporte e documentação
-- Inspiração em aplicações modernas de tarefas
-
----
-
 ## 📈 Status do Projeto
 
 - **Versão**: 1.0.0
@@ -757,25 +574,6 @@ Dúvidas ou problemas?
 - **Última Atualização**: Maio 2026
 - **Java**: 25+
 - **JavaFX**: 25+
-
----
-
-## 📝 Changelog
-
-### v1.0.0 (Maio 2026)
-- ✨ Primeira versão estável
-- ✅ Funcionalidade completa de tarefas
-- 🎨 Interface moderna com CSS
-- 📚 Documentação completa
-
-### v0.2.0 (Maio 2026)
-- ✨ Adicionada funcionalidade de check
-- 🎨 Estilos visuais melhorados
-- 🔧 Refatoração de componentes
-
-### v0.1.0 (Maio 2026)
-- 🚀 Release inicial
-- ✅ CRUD básico de tarefas
 
 ---
 
@@ -810,18 +608,6 @@ Para novos desenvolvedores que entram no projeto:
 
 ---
 
-## 🚀 Próximos Passos
-
-Para começar a contribuir:
-
-1. **Leia** o arquivo `CONTRIBUTING.md`
-2. **Estude** a arquitetura em `docs/ARCHITECTURE.md`
-3. **Explore** o código-fonte comentado
-4. **Crie** uma issue para sua ideia
-5. **Desenvolva** com paixão! 💪
-
----
-
-**Desenvolvido com ❤️ usando Java + JavaFX**
+**Desenvolvido usando Java + JavaFX**
 
 *Última atualização: 13 de Maio de 2026*
