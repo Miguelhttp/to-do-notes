@@ -1,0 +1,6 @@
+com\notion\App.class
+com\notion\model\Task.class
+com\notion\components\TaskItem.class
+com\notion\view\AppView.class
+com\notion\Main.class
+com\notion\controller\TaskController.class
